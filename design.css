@@ -1,0 +1,33 @@
+a.headerButton:link, a.headerButton:visited {
+  text-decoration: none;
+  background-color: #e6e6e6;
+  color: black;
+  padding: 15px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+a.headerButton:hover, a.headerButton:active {
+  background-color: #99c2ff;
+}
+
+.box1,.box2,.box3{
+  border-style: solid;
+  border-width: 0.1px;
+  border-color: lightgray;
+    height: none;
+    width: 350px;
+}
+.box1:hover,.box2:hover,.box3:hover{
+    background-color: lightgray;
+}
+.container{
+  border-style: solid;
+  border-width: 0px;
+  border-color: lightgray;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    text-align: center;
+}
