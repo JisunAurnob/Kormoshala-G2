@@ -1,4 +1,6 @@
 <?php
+require_once '../model/model.php';
+$tableName = 'corporate';
 
 $flag=1;
 $nameErr = $emailErr = $addressErr = $tradelicenseErr = $name = $email = $dob = $address = "";
@@ -87,6 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
    if($flag==0){
     $args = array(
+    'username' => $_GET['username'],
     'nameErr' => $nameErr,
     'emailErr' => $emailErr,
     'userNameErr' => $userNameErr,
@@ -115,9 +118,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //   }
 // }
 // }
-if($flag==1){
-      header("location:../editCorporateEmployer.php?" . http_build_query($args));
-   }
+if($flag == 1) {
+  $data['CompanyName'] = $_POST['name'];
+  $data['Email'] = $_POST['email'];
+  $data['Phone'] = $_POST['phone'];
+  $data['CompanyAddress'] = $_POST['address'];
+  $data['TradeLicense'] = $_POST['tradelicense'];
+
+  if (updateCorporate($tableName, $_GET['username'], $data)) {
+    header('Location: ../manageCorporateEmployer.php');
+  }
+  else {
+  echo '<p>Error</p>';
+  header('Location: ../editCorporateEmployer.php');
+}
+}
 }
 
 function test_input($data) {

@@ -1,6 +1,10 @@
 <?php 
 session_start();
-if(isset($_SESSION['username'])){ ?>
+if(isset($_SESSION['username'])){ 
+	require_once 'controler/manageSeekerControler.php';
+	$tableName = 'seekers';
+	$seekers = fetchAllSeekers($tableName);
+	?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,8 +22,7 @@ if(isset($_SESSION['username'])){ ?>
 </head>
 <body>
 <?php 
-	echo "<div>";include 'controler/header.php';echo "</div>";
-	require 'controler/manageSeekerControler.php'
+	include 'controler/header.php';
  ?>
 
  <h1 style="font-family: cursive; font-size: 30px; color: #008fb3"><center>Seekers</center></h1>
@@ -36,17 +39,17 @@ if(isset($_SESSION['username'])){ ?>
 		</tr>
 	</thead>
 	<tbody>
-		<?php if($username=="ronaldo"){ ?>
+		<?php foreach ($seekers as $i => $seeker): ?>
 			<tr>
-				<td><?php echo $name; ?></td>
-				<td><a class='headerButton' href="userProfile.php?username=<?php echo $username; ?>"><?php echo $username; ?></a></td>
-				<td><?php echo $email; ?></td>
-				<td><?php echo $phone; ?></td>
-				<td><?php echo $gender; ?></td>
-				<td><?php echo $dob; ?></td>
-				<td><a href="editSeeker.php?username=<?php echo $username; ?>">Edit</a>&nbsp&nbsp<a href="controller/deleteStudent.php?id=<?php echo $student['ID']; ?>">Delete</a></td>
+				<td><?php echo $seeker['name']; ?></td>
+				<td><a class='headerButton' href="userProfile.php?username=<?php echo $seeker['username']; ?>"><?php echo $seeker['username']; ?></a></td>
+				<td><?php echo $seeker['email']; ?></td>
+				<td><?php echo $seeker['phone']; ?></td>
+				<td><?php echo $seeker['gender']; ?></td>
+				<td><?php echo $seeker['dob']; ?></td>
+				<td><a href="editSeeker.php?username=<?php echo $seeker['username']; ?>">Edit</a>&nbsp&nbsp<a href="controler/deleteSeeker.php?username=<?php echo $seeker['username']; ?>">Delete</a></td>
 			</tr>
-		<?php } ?>
+		<?php endforeach; ?>
 		
 
 	</tbody>

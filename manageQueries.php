@@ -17,7 +17,7 @@ if(isset($_SESSION['username'])){ ?>
 	<title>Manage Queries</title>
 </head>
 <body>
-<?php include 'controler/header.php';?>              
+<?php include 'controler/header.php';?> <center>             
                 <div class="table-responsive"> 
                      <table class="table table-bordered">  
                           <tr>  
@@ -40,7 +40,7 @@ if(isset($_SESSION['username'])){ ?>
                           }  
                           ?>  
                      </table>  
-                   </div>
+                   </div></center>
 <?php include 'controler/footer.php';?>
 </body>
 </html>

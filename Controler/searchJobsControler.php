@@ -10,6 +10,7 @@ $q=$_GET["q"];
 		<tr>
 			<th>Job ID</th>
 			<th>Job Title</th>
+			<th>Company Name</th>
 			<th>Job Details</th>
 			<th>Salary</th>
 			<th>EmployeeRequirement</th>
@@ -25,6 +26,7 @@ $q=$_GET["q"];
 			echo "<tr>
 				<td>".$job['Job_id']."</td>
 				<td>".$job['JobTitle']."</td>
+				<td>".$job['cname']."</td>
 				<td>".$job['JobDetail']."</td>
 				<td>".$job['Salary']."</td>
 				<td>".$job['EmployeeRequirement']."</td>

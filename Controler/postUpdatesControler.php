@@ -1,10 +1,16 @@
 <?php
+require_once '../model/model.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-	if($_POST['jobtype']=='Approved'){
-		header("location:../admin.php");
-	}
-	else
-		header("location:../admin.php");
+  $data['JobStatus'] = $_POST['JobStatus'];
+
+  if (updateJobStatus('jobs', $_GET['jobid'], $data)) {
+    header('Location: ../managePosts.php');
+  }
+  else {
+  echo '<p>Error</p>';
+  header('Location: ../managePosts.php');
+}
+
 }
 ?>

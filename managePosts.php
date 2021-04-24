@@ -1,6 +1,10 @@
 <?php 
 session_start();
-if(isset($_SESSION['username'])){ ?>
+if(isset($_SESSION['username'])){ 
+	require_once 'controler/managePostsControler.php';
+	$tableName = 'jobs';
+	$jobs = fetchAllPosts($tableName);
+	?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,8 +22,8 @@ if(isset($_SESSION['username'])){ ?>
 </head>
 <body>
 <?php 
-	echo "<div>";include 'controler/header.php';echo "</div>";
-	require 'controler/managePostsControler.php';
+	include 'controler/header.php';
+	//require 'controler/managePostsControler.php';
  ?>
  <h1 style="font-family: cursive; font-size: 30px; color: #008fb3"><center>Posted Jobs</center></h1>
  <table style="width:100%">
@@ -27,25 +31,37 @@ if(isset($_SESSION['username'])){ ?>
 		<tr>
 			<th>Job ID</th>
 			<th>Job Title</th>
-			<th>Job Type</th>
+			<th>Company Name</th>
+			<th>Job Details</th>
 			<th>Salary</th>
-			<th>Job Status</th>
+			<th>Employee Requirement</th>
+			<th>Vacancy</th>
+			<th>Location</th>
+			<th>Workplace</th>
+			<th>Job Type</th>
 			<th>Posted By</th>
+			<th>Job Status</th>
 			<th>Action</th>
 		</tr>
 	</thead>
 	<tbody>
+		<?php foreach ($jobs as $i => $job): ?>
 			<tr>
-				<td><a class='headerButton' href="jobProfile.php?jobId=<?php echo $jobId; ?>"><?php echo $jobId; ?></a></td>
-				<td><?php echo $jobTitle; ?></td>
-				<td><?php echo $jobType; ?></td>
-				<td><?php echo $salary; ?></td>
-				<td><?php echo $jobStatus; ?></td>
-				<td><a class='headerButton' href="profile.php?username=<?php echo $postUser; ?>"><?php echo $postUser; ?></a></td>
-				<td><a href="postUpdates.php?jobId=<?php echo $jobId; ?>">Update Status</a>&nbsp&nbsp<a href="controller/deleteStudent.php?id=<?php echo $student['ID']; ?>">Delete</a></td>
+				<td><a class='headerButton' href="jobProfile.php?job['Job_id']=<?php echo $job['Job_id']; ?>"><?php echo $job['Job_id']; ?></a></td>
+				<td><?php echo $job['JobTitle']; ?></td>
+				<td><?php echo $job['cname']; ?></td>
+				<td><?php echo $job['JobDetail']; ?></td>
+				<td><?php echo $job['Salary']; ?></td>
+				<td><?php echo $job['EmployeeRequirement']; ?></td>
+				<td><?php echo $job['Vacancy']; ?></td>
+				<td><?php echo $job['Location']; ?></td>
+				<td><?php echo $job['Workplace']; ?></td>
+				<td><?php echo $job['JobType']; ?></td>
+				<td><a class='headerButton' href="profile.php?username=<?php echo $job['PostedBy']; ?>"><?php echo $job['PostedBy']; ?></a></td>
+				<td><?php echo $job['JobStatus']; ?></td>
+				<td><a href="postUpdates.php?jobId=<?php echo $job['Job_id']; ?>">Update Status</a>&nbsp&nbsp<a href="controler/deletePost.php?id=<?php echo $job['Job_id']; ?>">Delete</a></td>
 			</tr>
-		
-
+			<?php endforeach; ?>
 	</tbody>
 </table>
  <div><?php include 'controler/footer.php';?></div>
