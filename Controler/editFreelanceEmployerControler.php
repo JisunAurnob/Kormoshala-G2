@@ -1,9 +1,12 @@
 <?php
 require_once '../model/model.php';
+$tableName = 'freelancers';
+$freeUsername = $_GET['username'];
+
 $flag=1;
-$nameErr = $emailErr = $genderErr = $dobErr = $name = $email = $dob = $gender = "";
+$nameErr = $emailErr = $addressErr = $tradelicenseErr = $name = $email = $dob = $address = "";
 $username = $password = "";
-$userNameErr = $phoneErr = $confirmpassErr = $confirmpass = "";
+$userNameErr = $phoneErr = "";
 $message = '';  
 $error = ''; 
 
@@ -53,18 +56,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   }
 
-   if (empty($_POST["gender"])) {
-    $genderErr = "Gender is required";
+   if (empty($_POST["address"])) {
+    $addressErr = "Address is required";
     $flag=0;
   } else {
-    $gender = test_input($_POST["gender"]);
-  }
-
-  if (empty($_POST["birthday"])) {
-    $dobErr = "DOB is required";
-    $flag=0;
-  } else {
-    $dob = test_input($_POST["birthday"]);
+    $gender = test_input($_POST["address"]);
   }
 
 
@@ -72,30 +68,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $args = array(
     'nameErr' => $nameErr,
     'emailErr' => $emailErr,
-    'userNameErr' => $userNameErr,
     'phoneErr' => $phoneErr,
-    'genderErr' => $genderErr,
-    'dobErr' => $dobErr
+    'addressErr' => $addressErr,
+    'username' => $freeUsername
 );
-      header("location:../editSeeker.php?" . http_build_query($args));
+      header("location:../editFreelanceEmployer.php?" . http_build_query($args));
    }
 
 if($flag == 1) {
   $data['name'] = $_POST['name'];
   $data['email'] = $_POST['email'];
   $data['phone'] = $_POST['phone'];
-  $data['gender'] = $_POST['gender'];
-  $data['dob'] = $_POST['birthday'];
+  $data['address'] = $_POST['address'];
 
-  if (updateSeeker('seekers', $_GET['username'], $data)) {
-    header('Location: ../manageSeeker.php');
+  if (updateFreelancer($tableName, $freeUsername, $data)) {
+    header('Location: ../manageFreelanceEmployer.php');
   }
   else {
   echo '<p>Error</p>';
-  header('Location: ../manageSeeker.php');
+  header('Location: ../editFreelanceEmployer.php?username=<?php echo $freeUsername; ?>');
 }
 }
-
 }
 
 function test_input($data) {

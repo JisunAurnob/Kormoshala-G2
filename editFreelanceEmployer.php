@@ -1,6 +1,11 @@
 <?php 
 session_start();
-if(isset($_SESSION['username'])){ ?>
+if(isset($_SESSION['username'])){ 
+  require_once ('model/model.php');
+  $tableName = 'freelancers';
+  $freeUsername = $_GET['username'];
+  $freelancer = showUser($tableName, $freeUsername);
+  ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,18 +19,20 @@ if(isset($_SESSION['username'])){ ?>
 	require_once 'controler/manageFreelanceEmployerControler.php'
 	//$_GET['username'];
  ?>
-<form method="post" action="<?php echo htmlspecialchars('Controler/manageFreelanceEmployerControler.php');?>">
+<form method="post" action="Controler/editFreelanceEmployerControler.php?username=<?php echo $freeUsername; ?>">
   <fieldset>
 <legend>Freelance Employer:</legend><div style="float: left;">  
-  Name: <input type="text" name="name" value="<?php echo $name; ?>">
+  Name: <input type="text" name="name" value="<?php echo $freelancer['name']; ?>">
+  <span class="error"><?php if(!empty($_GET['nameErr'])){echo $_GET['nameErr'];}?></span><br>
   <br><hr>
-  E-mail: <input type="text" name="email" value="<?php echo $email; ?>">
+  E-mail: <input type="text" name="email" value="<?php echo $freelancer['email']; ?>">
+   <span class="error"><?php if(!empty($_GET['emailErr'])){echo $_GET['emailErr'];}?></span><br>
   <br><hr>
-  User Name: <input type="text" name="username" value="<?php echo $_GET['username']; ?>">
+  Phone: <input type="text" name="phone" value="<?php echo $freelancer['phone']; ?>">
+   <span class="error"><?php if(!empty($_GET['phoneErr'])){echo $_GET['phoneErr'];}?></span><br>
   <br><hr>
-  Phone: <input type="text" name="phone" value="<?php echo $phone; ?>">
-  <br><hr>
-  Address: <input type="text" name="address" value="<?php echo $address; ?>">
+  Address: <input type="text" name="address" value="<?php echo $freelancer['address']; ?>">
+   <span class="error"><?php if(!empty($_GET['addressErr'])){echo $_GET['addressErr'];}?></span><br>
   <br><hr>
   <input type="submit" name="submit" value="Submit"> <input type="reset" value="Reset"></div></fieldset>
 </form>

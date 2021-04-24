@@ -1,6 +1,12 @@
 <?php 
 session_start();
-if(isset($_SESSION['username'])){ ?>
+if(isset($_SESSION['username'])){
+
+require_once 'controler/manageCorporateEmployerControler.php';
+$tableName = 'corporate';
+$corpEmps = fetchAllCorporateEmp($tableName);
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,13 +21,24 @@ if(isset($_SESSION['username'])){ ?>
   	padding: 15px;
 	}
 </style>
+<script>
+	function deleteConfirm(str) {
+  	var txt;
+  	if (confirm("Are You Sure? Delete This User?")) {
+    txt = "controler/deleteCorpUser.php?username=";
+    document.getElementById("del").href = txt.concat(str);
+  	} 
+  	else {
+    document.getElementById("del").href = "manageCorporateEmployer.php";
+  	}
+	}
+</script>
 </head>
 <body>
 <?php 
-	echo "<div>";include 'controler/header.php';echo "</div>";
-	require 'controler/manageCorporateEmployerControler.php';
+	include 'controler/header.php';
  ?>
-
+<h3 style="color: red;"><?php if(!empty($_GET['username'])){echo $_GET['username'];} ?></h3>
 <h1 style="font-family: cursive; font-size: 30px; color: #008fb3"><center>Corporate Employers</center></h1>
  <table style="width:100%">
 	<thead>
@@ -29,23 +46,24 @@ if(isset($_SESSION['username'])){ ?>
 			<th>Company Name</th>
 			<th>Userame</th>
 			<th>Email</th>
-			<th>Address</th>
 			<th>Phone</th>
+			<th>Address</th>
 			<th>Trade License No.</th>
 			<th>Action</th>
 		</tr>
 	</thead>
 	<tbody>
+				<?php foreach ($corpEmps as $i => $corpEmp): ?>
 			<tr>
-				<td><?php echo $compName; ?></td>
-				<td><a class='headerButton' href="userProfile.php?username=<?php echo $username; ?>"><?php echo $username; ?></a></td>
-				<td><?php echo $email; ?></td>
-				<td><?php echo $address; ?></td>
-				<td><?php echo $phone; ?></td>
-				<td><?php echo $tradelicense; ?></td>
-				<td><a href="editCorporateEmployer.php?username=<?php echo $username; ?>">Edit</a>&nbsp&nbsp<a href="controller/deleteStudent.php?id=<?php echo $student['ID']; ?>">Delete</a></td>
+				<td><?php echo $corpEmp['CompanyName']; ?></td>
+				<td><a class='headerButton' href="userProfile.php?username=<?php echo $corpEmp['Username']; ?>"><?php echo $corpEmp['Username']; ?></a></td>
+				<td><?php echo $corpEmp['Email']; ?></td>
+				<td><?php echo $corpEmp['Phone']; ?></td>
+				<td><?php echo $corpEmp['CompanyAddress']; ?></td>
+				<td><?php echo $corpEmp['TradeLicense']; ?></td>
+				<td><a href="editCorporateEmployer.php?username=<?php echo $corpEmp['Username']; ?>">Edit</a>&nbsp&nbsp<!-- <a href="" id="del" onclick="deleteConfirm('<?php echo $corpEmp['Username']; ?>')">Delete</a> --><a href="controler/deleteCorpUser.php?username=<?php echo $corpEmp['Username']; ?>">Delete</a></td>
 			</tr>
-		
+		<?php endforeach; ?>
 
 	</tbody>
 	

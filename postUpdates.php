@@ -1,6 +1,11 @@
 <?php 
 session_start();
-if(isset($_SESSION['username'])){ ?>
+if(isset($_SESSION['username'])){ 
+	require_once ('model/model.php');
+	$tableName = 'jobs';
+	$jobid = $_GET['jobId'];
+	$job = showJob($tableName, $jobid);?>
+	?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,18 +29,23 @@ if(isset($_SESSION['username'])){ ?>
 
 <fieldset>
 <legend><B>Update Post</B></legend>
-<div style= 'margin-right: 750px;float: left; text-align: left;color: green; font-size: 20px;'>Job Id: <a class='headerButton' href="jobProfile.php?username=<?php echo $_GET['jobId']; ?>"><?php echo $_GET['jobId']; ?></a><hr>
-	<br>Job Title: <?php echo  $jobTitle ?><hr>
-	<br>Job Type: <?php echo  $jobType ?><hr>
-	<br>Email: <?php echo  $salary ?><hr>
-	<br>Post User: <?php echo  $postUser ?><hr>
-	<form method="post" action="<?php echo htmlspecialchars('Controler/postUpdatesControler.php');?>"
-	<hr><br>JOB STATUS:
-  	<select name="jobtype">
-  	<option name="jobtype" value="Approved" <?php if($jobStatus=="Approved"){echo "selected";} ?>>Approve</option>
-  	<option name="jobtype" value="Rejected" <?php if($jobStatus=="Rejected"){echo "selected";} ?>>Reject</option>
-  	<option name="jobtype" value="Approval required" <?php if($jobStatus=="Approval required"){echo "selected";} ?>>Pending</option>
-  </select><hr><br>
+<div style= 'margin-right: 750px;float: left; text-align: left;color: green; font-size: 20px;'><b style="color: #668cff">Job Id:</b> <a class='headerButton' href="jobProfile.php?username=<?php echo $_GET['jobId']; ?>"><?php echo $_GET['jobId']; ?></a><hr>
+	<br><b style="color: #668cff">Job Title:</b> <?php echo  $job['JobTitle']; ?><hr>
+	<br><b style="color: #668cff">Company Name:</b> <?php echo  $job['cname'] ?><hr>
+	<br><b style="color: #668cff">Job Title:</b> <?php echo  $job['JobDetail']; ?><hr>
+	<br><b style="color: #668cff">Salary:</b> <?php echo  $job['Salary']; ?><hr>
+	<br><b style="color: #668cff">Employee Requirements:</b> <?php echo  $job['EmployeeRequirement']; ?><hr>
+	<br><b style="color: #668cff">Vacancy:</b> <?php echo  $job['Vacancy'] ?><hr>
+	<br><b style="color: #668cff">Location:</b> <?php echo  $job['Location'] ?><hr>
+	<br><b style="color: #668cff">Job Type:</b> <?php echo  $job['JobType'] ?><hr>
+	<br><b style="color: #668cff">Posted By:</b> <?php echo  $job['PostedBy'] ?><hr>
+	<form method="post" action="<?php echo htmlspecialchars('Controler/postUpdatesControler.php?jobid='.$jobid);?>"
+	<hr><br><b style="color: #668cff">JOB STATUS:</b>
+  	<select name="JobStatus">
+  	<option value="approved" <?php if($job['JobStatus']=="approved"){echo "selected";} ?>>Approve</option>
+  	<option value="rejected" <?php if($job['JobStatus']=="rejected"){echo "selected";} ?>>Reject</option>
+  	<option value="pending" <?php if($job['JobStatus']=="pending"){echo "selected";} ?>>Pending</option>
+  	</select><hr><br>
   <input type="submit" name="submit" value="Update"> <input type="reset" value="Reset">
 </form>
 	</div>

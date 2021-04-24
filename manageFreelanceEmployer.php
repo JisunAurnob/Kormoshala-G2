@@ -1,6 +1,10 @@
 <?php 
 session_start();
-if(isset($_SESSION['username'])){ ?>
+if(isset($_SESSION['username'])){ 
+	require_once 'controler/manageFreelanceEmployerControler.php';
+	$tableName = 'freelancers';
+	$freelancers = fetchAllfreelancers($tableName);
+	?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,8 +22,7 @@ if(isset($_SESSION['username'])){ ?>
 </head>
 <body>
 <?php 
-	echo "<div>";include 'controler/header.php';echo "</div>";
-	require 'controler/manageFreelanceEmployerControler.php';
+	include 'controler/header.php';
  ?>
 
 <h1 style="font-family: cursive; font-size: 30px; color: #008fb3"><center>Freelance Employers</center></h1>
@@ -35,15 +38,16 @@ if(isset($_SESSION['username'])){ ?>
 		</tr>
 	</thead>
 	<tbody>
+		<?php foreach ($freelancers as $i => $freelancer): ?>
 			<tr>
-				<td><?php echo $name; ?></td>
-				<td><a class='headerButton' href="userProfile.php?username=<?php echo $username; ?>"><?php echo $username; ?></a></td>
-				<td><?php echo $email; ?></td>
-				<td><?php echo $address; ?></td>
-				<td><?php echo $phone; ?></td>
-				<td><a href="editFreelanceEmployer.php?username=<?php echo $username; ?>">Edit</a>&nbsp&nbsp<a href="controller/deleteStudent.php?id=<?php echo $student['ID']; ?>">Delete</a></td>
+				<td><?php echo $freelancer['name'];; ?></td>
+				<td><a class='headerButton' href="userProfile.php?username=<?php echo $freelancer['username']; ?>"><?php echo $freelancer['username']; ?></a></td>
+				<td><?php echo $freelancer['email']; ?></td>
+				<td><?php echo $freelancer['address'];; ?></td>
+				<td><?php echo $freelancer['phone'];; ?></td>
+				<td><a href="editFreelanceEmployer.php?username=<?php echo $freelancer['username']; ?>">Edit</a>&nbsp&nbsp<a href="controler/deleteFreelancer.php?username=<?php echo $freelancer['username']; ?>">Delete</a></td>
 			</tr>
-		
+		<?php endforeach; ?>
 
 	</tbody>
 	

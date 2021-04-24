@@ -71,6 +71,36 @@ function updateAdmin($tableName, $username, $data){
     $conn = null;
     return true;
 }
+function updateCorporate($tableName, $username, $data){
+    $conn = db_conn();
+    $selectQuery = "UPDATE ".$tableName." set   CompanyName = ?, Email = ?, Phone = ?, CompanyAddress = ?, TradeLicense = ? where Username = ?";
+    try{
+        $stmt = $conn->prepare($selectQuery);
+        $stmt->execute([
+            $data['CompanyName'], $data['Email'], $data['Phone'], $data['CompanyAddress'], $data['TradeLicense'], $username
+        ]);
+    }catch(PDOException $e){
+        echo $e->getMessage();
+    }
+    
+    $conn = null;
+    return true;
+}
+function updateFreelancer($tableName, $username, $data){
+    $conn = db_conn();
+    $selectQuery = "UPDATE ".$tableName." set   name = ?, email = ?, phone = ?, address = ? where username = ?";
+    try{
+        $stmt = $conn->prepare($selectQuery);
+        $stmt->execute([
+            $data['name'], $data['email'], $data['phone'], $data['address'], $username
+        ]);
+    }catch(PDOException $e){
+        echo $e->getMessage();
+    }
+    
+    $conn = null;
+    return true;
+}
 
 function updatePassword($tableName, $username, $data){
     $conn = db_conn();
@@ -130,9 +160,22 @@ function searchJobs($q){
 }
 
 
-function deleteProduct($tableName, $id){
+function deleteUser($tableName, $username){
 	$conn = db_conn();
-    $selectQuery = "DELETE FROM `".$tableName."` WHERE id = ?";
+    $selectQuery = "DELETE FROM `".$tableName."` WHERE Username = ?";
+    try{
+        $stmt = $conn->prepare($selectQuery);
+        $stmt->execute([$username]);
+    }catch(PDOException $e){
+        echo $e->getMessage();
+    }
+    $conn = null;
+
+    return true;
+}
+function deletePost($tableName, $id){
+    $conn = db_conn();
+    $selectQuery = "DELETE FROM `".$tableName."` WHERE Job_id = ?";
     try{
         $stmt = $conn->prepare($selectQuery);
         $stmt->execute([$id]);
@@ -143,4 +186,49 @@ function deleteProduct($tableName, $id){
 
     return true;
 }
+function showJob($tableName, $id){
+    $conn = db_conn();
+    $selectQuery = "SELECT * FROM ".$tableName." where Job_id = ?";
+
+    try {
+        $stmt = $conn->prepare($selectQuery);
+        $stmt->execute([$id]);
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $row;
+}
+function updateJobStatus($tableName, $id, $data){
+    $conn = db_conn();
+    $selectQuery = "UPDATE ".$tableName." set  JobStatus = ? where Job_id = ?";
+    try{
+        $stmt = $conn->prepare($selectQuery);
+        $stmt->execute([
+            $data['JobStatus'], $id
+        ]);
+    }catch(PDOException $e){
+        echo $e->getMessage();
+    }
+    
+    $conn = null;
+    return true;
+}
+function updateSeeker($tableName, $username, $data){
+    $conn = db_conn();
+    $selectQuery = "UPDATE ".$tableName." set   name = ?, email = ?, phone = ?, gender = ?, dob = ? where username = ?";
+    try{
+        $stmt = $conn->prepare($selectQuery);
+        $stmt->execute([
+            $data['name'], $data['email'], $data['phone'], $data['gender'], $data['dob'], $username
+        ]);
+    }catch(PDOException $e){
+        echo $e->getMessage();
+    }
+    
+    $conn = null;
+    return true;
+}
+
 ?>

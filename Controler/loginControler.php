@@ -62,13 +62,13 @@ if ($flag==1) {
   // }
   //   header("location:../personalEmployer.php");
   // }
-  // else if (loginCheck('cemps', $username, $password)) {
-  //   $_SESSION['username'] = $username;
-  // if(isset($_POST['rememberMe'])){
-  //   setcookie('cemp' , $username, time() + (86400 * 30), "/");
-  // }
-  //   header("location:../corporateEmployer.php");
-  // }
+  else if (loginCheck('corporate', $username, $password)) {
+    $_SESSION['username'] = $username;
+  if(isset($_POST['rememberMe'])){
+    setcookie('cemp' , $username, time() + (86400 * 30), "/");
+  }
+    header("location:../corporateEmployer.php");
+  }
 	else{
 		$msg="<script>alert('User Name Or Password Incorrect!')</script>";
     header("location:../login.php?alert=" . $msg);
